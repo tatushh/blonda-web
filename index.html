@@ -111,6 +111,24 @@
     @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
     @media(max-width:768px){.about-grid,.form-wrap,.sedes-grid{grid-template-columns:1fr}.t-grid{grid-template-columns:1fr}.steps{grid-template-columns:1fr 1fr}.step::after{display:none}.about-visual{display:none}}
   </style>
+
+  <!-- Meta Pixel Code — Blonda Tools (2260617334675820) -->
+  <script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '2260617334675820');
+  fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=2260617334675820&ev=PageView&noscript=1"
+  /></noscript>
+  <!-- End Meta Pixel Code -->
 </head>
 <body>
 
@@ -345,6 +363,7 @@ document.getElementById("lead-form").addEventListener("submit", async function(e
   document.getElementById("wa-link").href = waUrl;
   document.getElementById("form-box").style.display = "none";
   document.getElementById("form-success").style.display = "block";
+  fbq("track", "Lead", {content_name: tratamiento, content_category: sede||"No especificada"});
   setTimeout(()=> window.open(waUrl,"_blank"), 1500);
 });
 </script>
