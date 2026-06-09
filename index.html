@@ -112,7 +112,7 @@
     @media(max-width:768px){.about-grid,.form-wrap,.sedes-grid{grid-template-columns:1fr}.t-grid{grid-template-columns:1fr}.steps{grid-template-columns:1fr 1fr}.step::after{display:none}.about-visual{display:none}}
   </style>
 
-  <!-- Meta Pixel Code — Blonda Tools (2581155548997332) -->
+  <!-- Meta Pixel Code — Blonda Tools (2260617334675820) -->
   <script>
   !function(f,b,e,v,n,t,s)
   {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -122,11 +122,11 @@
   t.src=v;s=b.getElementsByTagName(e)[0];
   s.parentNode.insertBefore(t,s)}(window, document,'script',
   'https://connect.facebook.net/en_US/fbevents.js');
-  fbq('init', '2581155548997332');
+  fbq('init', '2260617334675820');
   fbq('track', 'PageView');
   </script>
   <noscript><img height="1" width="1" style="display:none"
-  src="https://www.facebook.com/tr?id=2581155548997332&ev=PageView&noscript=1"
+  src="https://www.facebook.com/tr?id=2260617334675820&ev=PageView&noscript=1"
   /></noscript>
   <!-- End Meta Pixel Code -->
 </head>
@@ -351,6 +351,10 @@ document.getElementById("lead-form").addEventListener("submit", async function(e
   if (!valid) return;
   const btn = document.getElementById("submit-btn");
   btn.disabled = true; btn.textContent = "Enviando...";
+  // Meta Pixel — Lead event (antes del fetch para garantizar el disparo)
+  if (typeof fbq !== 'undefined') {
+    fbq("track", "Lead", {content_name: tratamiento, content_category: sede||"No especificada"});
+  }
   const data = {nombre, telefono, correo, tratamiento, sede: sede||"No especificada",
     fecha: new Date().toLocaleString("es-PE",{timeZone:"America/Lima"}),
     origen: "Web — blondamedicinaestetica.com"};
@@ -363,7 +367,6 @@ document.getElementById("lead-form").addEventListener("submit", async function(e
   document.getElementById("wa-link").href = waUrl;
   document.getElementById("form-box").style.display = "none";
   document.getElementById("form-success").style.display = "block";
-  fbq("track", "Lead", {content_name: tratamiento, content_category: sede||"No especificada"});
   setTimeout(()=> window.open(waUrl,"_blank"), 1500);
 });
 </script>
