@@ -330,9 +330,31 @@
 </footer>
 
 <script>
-// IMPORTANTE: Reemplaza TU_SCRIPT_ID con el ID de tu Google Apps Script
 const SHEET_URL = "https://script.google.com/macros/s/AKfycbz_TKzAYXvVPUlriaTx39fgauU69C2u8_pTJhH6S5b0rT1hdfS4CH2GHbc4vWD1_pv_9w/exec";
 const WA_NUMBER = "51944068942";
+
+// Capturar UTMs de la URL al cargar la página
+function getUTMParams() {
+  const params = new URLSearchParams(window.location.search);
+  return {
+    utm_source:   params.get("utm_source")   || "",
+    utm_medium:   params.get("utm_medium")   || "",
+    utm_campaign: params.get("utm_campaign") || "",
+    utm_content:  params.get("utm_content")  || ""
+  };
+}
+
+// Mapeo utm_campaign → nombre campaña ROI
+function mapCampaign(utm_campaign) {
+  const map = {
+    "invasivos_api": "Meta_Invasivos_API",
+    "fibrosis_api":  "Meta_Fibrosis_API",
+    "laser_api":     "Meta_Laser_API"
+  };
+  return map[utm_campaign] || (utm_campaign ? utm_campaign : "Web_Landing");
+}
+
+const utms = getUTMParams();
 
 document.getElementById("lead-form").addEventListener("submit", async function(e) {
   e.preventDefault();
@@ -355,9 +377,16 @@ document.getElementById("lead-form").addEventListener("submit", async function(e
   if (typeof fbq !== 'undefined') {
     fbq("track", "Lead", {content_name: tratamiento, content_category: sede||"No especificada"});
   }
-  const data = {nombre, telefono, correo, tratamiento, sede: sede||"No especificada",
-    fecha: new Date().toLocaleString("es-PE",{timeZone:"America/Lima"}),
-    origen: "Web — blondamedicinaestetica.com"};
+  const data = {
+    nombre, telefono, correo, tratamiento,
+    sede: sede || "No especificada",
+    fecha: new Date().toLocaleString("es-PE", {timeZone: "America/Lima"}),
+    origen: "Web — blondamedicinaestetica.com",
+    utm_source:   utms.utm_source,
+    utm_medium:   utms.utm_medium,
+    utm_campaign: mapCampaign(utms.utm_campaign),
+    utm_content:  utms.utm_content
+  };
   try {
     await fetch(SHEET_URL, {method:"POST", mode:"no-cors",
       headers:{"Content-Type":"application/json"}, body:JSON.stringify(data)});
